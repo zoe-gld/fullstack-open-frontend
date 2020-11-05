@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
 import SearchInput from './components/SearchInput'
-import CountriesShow from './components/CountriesShow'
+import CountriesList from './components/CountriesList'
+import CountryInfo from './components/CountryInfo'
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [countriesFilter, setCountriesFilter] = useState([])
+  const [countryShow, setCountryShow] = useState({})
 
   useEffect(() => {
     axios
@@ -20,10 +22,17 @@ const App = () => {
         countries={countries}
         setCountriesFilter={setCountriesFilter}
       />
-      <CountriesShow
+      <CountriesList
         countriesFilter={countriesFilter}
         setCountriesFilter={setCountriesFilter}
+        setCountryShow={setCountryShow}
       />
+      {countryShow.name &&
+        <CountryInfo
+          country={countryShow}
+        />
+      }
+
     </div>
   )
 }
