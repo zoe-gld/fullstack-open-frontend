@@ -25,7 +25,7 @@ const App = () => {
       <CountriesList
         countriesFilter={countriesFilter}
         setCountriesFilter={setCountriesFilter}
-        setCountryShow={setCountryShow}
+        handleShowMore={setCountryShow}
       />
       {countryShow.name &&
         <CountryInfo
