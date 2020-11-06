@@ -1,4 +1,5 @@
 import React from 'react'
+import contactService from '../services/contacts'
 
 const ContactForm = (props) => {
   const {
@@ -32,6 +33,7 @@ const ContactForm = (props) => {
     if (nameAlreadyHere) {
       return window.alert(`${newName} is already in the Phonebook`)
     }
+    contactService.create(personObject)
     setPersons(persons.concat(personObject))
     setNewName('')
     setNewNumber('')
