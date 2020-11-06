@@ -8,7 +8,7 @@ const CountriesList = ({countriesFilter, setCountriesFilter, setCountryShow}) =>
       return <CountryInfo country={countriesFilter[0]} />
     }
     return countriesFilter.map(country =>
-      <CountriesListItem country={country} setCountryShow={setCountryShow} />
+      <CountriesListItem key={country.name} country={country} setCountryShow={setCountryShow} />
     )
   }
   return <p>Please be more specific with your search criteria</p>
