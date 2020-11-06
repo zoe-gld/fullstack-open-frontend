@@ -40,7 +40,11 @@ const App = () => {
       />
 
       <h3>Contacts</h3>
-      <Contacts persons={persons} search={search} />
+      <Contacts
+        persons={persons}
+        setPersons={setPersons}
+        search={search}
+      />
     </div>
   )
 }

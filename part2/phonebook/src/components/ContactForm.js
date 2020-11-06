@@ -31,7 +31,15 @@ const ContactForm = (props) => {
       .includes(newName)
 
     if (nameAlreadyHere) {
-      return window.alert(`${newName} is already in the Phonebook`)
+      if (window.confirm(`${newName} is already in the Phonebook, would you like to update his number`)) {
+        const personToUpdate = persons.find(person => person.name === newName)
+        const updatedPerson = {...personToUpdate, number: newNumber}
+        contactService.update(updatedPerson.id, updatedPerson)
+        setPersons(persons.map(person => person.name === newName ? updatedPerson : person))
+        setNewName('')
+        return setNewNumber('')
+      }
+      return
     }
     contactService.create(personObject)
     setPersons(persons.concat(personObject))
