@@ -24,5 +24,4 @@ const deleteContact = id => {
     .delete(`${baseUrl}/${id}`)
 }
 
-
 export default {getAll, create, update, deleteContact}

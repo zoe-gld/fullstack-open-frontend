@@ -1,23 +1,8 @@
 {
   "persons": [
     {
-      "name": "clem",
-      "number": "345",
-      "id": 5
-    },
-    {
-      "name": "coucou",
-      "number": "123",
-      "id": 6
-    },
-    {
-      "name": "zoe vig",
-      "number": "123",
-      "id": 7
-    },
-    {
       "name": "zoé gogo",
-      "number": "123",
+      "number": "12",
       "id": 8
     }
   ]

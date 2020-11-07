@@ -44,12 +44,17 @@ const ContactForm = (props) => {
         const updatedPerson = {...personToUpdate, number: newNumber}
         return contactService
           .update(updatedPerson.id, updatedPerson)
-          .then(update => {
-            setPersons(persons.map(person => person.name === newName ?  update : person))
-            displayNotification(`${update.name} has been updated with number ${update.number}`)
+          .then(updatedRecord => {
+            setPersons(persons.map(person => person.name === newName ?  updatedRecord : person))
+            displayNotification(`${updatedRecord.name} has been updated with number ${updatedRecord.number}`)
             setNewName('')
             setNewNumber('')
           })
+          .catch(error =>
+            displayNotification(
+              `${updatedPerson.name} has been deleted from the phonebook.`
+            )
+          )
       }
       return
     }
