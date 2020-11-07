@@ -8,15 +8,23 @@ const ContactForm = (props) => {
     newNumber,
     setNewNumber,
     persons,
+    setNotificationMsg,
     setPersons
   } = props
 
-  const handleNameChange = (event) => {
+  const handleNameChange = event => {
     setNewName(event.currentTarget.value)
   }
 
-  const handleNumberChange = (event) => {
+  const handleNumberChange = event => {
     setNewNumber(event.currentTarget.value)
+  }
+
+  const displayNotification = message => {
+    setNotificationMsg(message)
+    setTimeout(() => {
+      setNotificationMsg(null)
+    }, 3000)
   }
 
   const addPerson = (event) => {
@@ -34,17 +42,26 @@ const ContactForm = (props) => {
       if (window.confirm(`${newName} is already in the Phonebook, would you like to update his number`)) {
         const personToUpdate = persons.find(person => person.name === newName)
         const updatedPerson = {...personToUpdate, number: newNumber}
-        contactService.update(updatedPerson.id, updatedPerson)
-        setPersons(persons.map(person => person.name === newName ? updatedPerson : person))
-        setNewName('')
-        return setNewNumber('')
+        return contactService
+          .update(updatedPerson.id, updatedPerson)
+          .then(update => {
+            setPersons(persons.map(person => person.name === newName ?  update : person))
+            displayNotification(`${update.name} has been updated with number ${update.number}`)
+            setNewName('')
+            setNewNumber('')
+          })
       }
       return
     }
-    contactService.create(personObject)
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+
+    contactService
+      .create(personObject)
+      .then(createdContact => {
+        setPersons(persons.concat(createdContact))
+        displayNotification(`${createdContact.name} has been created`)
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   return (

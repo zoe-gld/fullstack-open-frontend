@@ -13,9 +13,11 @@ const create = newObject => (
     .then(response => response.data)
 )
 
-const update = (id, newObject) => {
-  return axios.put(`${baseUrl}/${id}`, newObject)
-}
+const update = (id, newObject) => (
+  axios
+    .put(`${baseUrl}/${id}`, newObject)
+    .then(response => response.data)
+)
 
 const deleteContact = id => {
   axios

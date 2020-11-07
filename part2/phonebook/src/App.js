@@ -4,6 +4,7 @@ import contactService from './services/contacts'
 import SearchBar from './components/SearchBar'
 import ContactForm from './components/ContactForm'
 import Contacts from './components/Contacts'
+import Notification from './components/Notification'
 
 const App = () => {
 
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [notificationMsg, setNotificationMsg] = useState()
 
   useEffect(() => {
       contactService
@@ -22,6 +24,9 @@ const App = () => {
 
   return (
     <div>
+      {notificationMsg &&
+        <Notification message={notificationMsg} />
+      }
       <h2>Phonebook</h2>
 
       <SearchBar
@@ -36,6 +41,7 @@ const App = () => {
         newNumber={newNumber}
         setNewNumber={setNewNumber}
         persons={persons}
+        setNotificationMsg={setNotificationMsg}
         setPersons={setPersons}
       />
 
