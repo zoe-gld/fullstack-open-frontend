@@ -24,7 +24,7 @@ const ContactForm = (props) => {
     setNotificationMsg(message)
     setTimeout(() => {
       setNotificationMsg(null)
-    }, 3000)
+    }, 5000)
   }
 
   const addPerson = (event) => {
@@ -50,10 +50,14 @@ const ContactForm = (props) => {
             setNewName('')
             setNewNumber('')
           })
-          .catch(error =>
-            displayNotification(
-              `${updatedPerson.name} has been deleted from the phonebook.`
-            )
+          .catch(error => {
+              if (error.response.data.error.includes("Validation failed")) {
+                return displayNotification(`Error: ${error.response.data.error}`)
+              }
+              displayNotification(
+                `${updatedPerson.name} has been previously deleted from the phonebook.`
+              )
+            }
           )
       }
       return
@@ -66,6 +70,11 @@ const ContactForm = (props) => {
         displayNotification(`${createdContact.name} has been created`)
         setNewName('')
         setNewNumber('')
+      })
+      .catch(error => {
+        displayNotification(
+          `Error: ${error.response.data.error}.`
+        )
       })
   }
 
