@@ -15,6 +15,13 @@ const App = () => {
     )
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
 
   const loginForm = () => (
     <>
@@ -47,20 +54,28 @@ const App = () => {
     <>
       <h2>blogs</h2>
       <p> {user.name} is logged in.</p>
+      <button onClick={handleLogout}>
+        Log out
+      </button>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
     </>
   )
+  const handleLogout = () => {
+    window.localStorage.clear()
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
     try {
       const user = await loginService.login({
         username, password,
       })
       setUser(user)
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
       setUsername('')
       setPassword('')
     } catch (exception) {
