@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -7,6 +8,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notification, setNotification] = useState(null)
 
   const [blogs, setBlogs] = useState([])
   const [newBlog, setnewBlog] = useState({})
@@ -38,12 +40,14 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      console.log(exception)
+      setNotification('Error: wrong username or password')
+      setTimeout(() => setNotification(null), 2000)
     }
   }
 
   const handleLogout = () => {
     window.localStorage.clear()
+    setUser(null)
   }
 
   const handleBlogAdded = async (event) => {
@@ -51,10 +55,13 @@ const App = () => {
     try {
       blogService.setToken(user.token)
       const addedBlog = await blogService.addBlog(newBlog)
+      setNotification(`Success: the blog ${addedBlog.title} by ${addedBlog.author || "an unknown writer"} was just added to your list.`)
+      setTimeout(() => setNotification(null), 2000)
       setBlogs(blogs.concat(addedBlog))
       setnewBlog({})
     } catch (exception) {
-      console.log(exception)
+      setNotification('Error: blog could not be added')
+      setTimeout(() => setNotification(null), 2000)
     }
   }
 
@@ -132,6 +139,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notification}></Notification>
       {user
         ? blogsList()
         : loginForm()
